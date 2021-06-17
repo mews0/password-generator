@@ -10,4 +10,4 @@ This will be added upon completion of the project.
 https://mews0.github.io/password-generator/
 
 ## URL of the GitHub Repository
-git@github.com:mews0/password-generator.git
+https://github.com/mews0/password-generator.git
