@@ -16,6 +16,8 @@ const unicodeLowercaseA = 97;
 const unicodeLowercaseZ = 122;
 const basicLatinUpper = 126;
 
+let strPassword = "";
+
 // Function to prompt user to enter valid password criteria
 let passwordCriteria = function() {
   // Prompt user for password length and validate input
@@ -47,7 +49,7 @@ let randomNumber = function(min, max) {
 
 // Function to create an array of random integers (Unicode values) that correspond to Basic Latin characters
 let createPasswordArray = function(length) {
-  for (i = 0; i < passwordLength; i++) {
+  for (let i = 0; i < passwordLength; i++) {
     passwordArray[i] = randomNumber(basicLatinLower, basicLatinUpper);
   }
 }
@@ -107,6 +109,15 @@ let validatePasswordArray = function(array, lowercase, uppercase, number, specia
   }
 }
 
+// Function to convert each element in passwordArray from integer (Unicode value) to Basic Latin character and convert entire array to single string
+let arrayToCharacters = function(array) {
+  for (let i = 0; i < passwordArray.length; i++) {
+    passwordArray[i] = String.fromCharCode(passwordArray[i]);
+  }
+
+  strPassword = array.join("");
+}
+
 // Function to generate random password that meets criteria
 let generatePassword = function() {
   // Prompt user to enter valid password criteria
@@ -118,9 +129,8 @@ let generatePassword = function() {
   // validate array created against password criteria
   validatePasswordArray(passwordArray, includeLowercaseLetters, includeUppercaseLetters, includeNumbers, includeSpecialCharacters);
 
-  // Convert each element in array from Unicode value (integer) to character
-
-  // Convert array to string
+  // Convert each element in array from Unicode value (integer) to character and convert entire array to single string
+  arrayToCharacters(passwordArray);
 }
 
 // Get references to the #generate element
