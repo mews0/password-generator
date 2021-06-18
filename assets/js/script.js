@@ -1,11 +1,33 @@
-// Assignment code here
+// Declare variables
+let passwordLength = 0;
+let includeLowercaseLetters = false;
+let includeUppercaseLetters = false;
+let includeNumbers = false;
+let includeSpecialCharacters = false;
 
-// Prompt user for password criteria and validate input
-  // Length (8 - 128 characters)?
-  // Include lowercase letters?
-  // Include uppercase letters?
-  // Include numbers?
-  // Include special characters?
+// Function to prompt user to enter password criteria
+let passwordCriteria = function() {
+
+  // Prompt user for password length and validate input
+  while (passwordLength < 8 || passwordLength > 128) {
+    passwordLength = parseInt(prompt(`Please enter a password length between 8 and 128 characters:`));
+    if (isNaN(passwordLength)) {
+      passwordLength = 0;
+    }
+  };
+
+  // Prompt user regarding inclusion of various character types in password - at least one character type must be selected
+  while (includeLowercaseLetters === false && includeUppercaseLetters === false && includeNumbers === false && includeSpecialCharacters === false) {
+    alert(`Please select at least one of the following character types to be included in your password.`);
+    includeLowercaseLetters = confirm(`Would you like to include lowercase letters in your password?`);
+    includeUppercaseLetters = confirm(`Would you like to include uppercase letters in your password?`);
+    includeNumbers = confirm(`Would you like to include numbers in your password?`);
+    includeSpecialCharacters = confirm(`Would you like to include special characters in your password?`);
+
+    console.log(passwordLength, includeLowercaseLetters, includeUppercaseLetters, includeNumbers, includeSpecialCharacters);
+  }
+}
+// *** WHERE DO I PUT passwordCriteria() FUNCTION CALL? ***
 
 // Generate random password that meets criteria
 let generatePassword = function() {
