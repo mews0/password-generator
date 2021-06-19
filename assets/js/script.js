@@ -16,8 +16,6 @@ const unicodeLowercaseA = 97;
 const unicodeLowercaseZ = 122;
 const basicLatinUpper = 126;
 
-let strPassword = "";
-
 // Function to prompt user to enter valid password criteria
 let passwordCriteria = function() {
   // Prompt user for password length and validate input
@@ -34,9 +32,7 @@ let passwordCriteria = function() {
     includeLowercaseLetters = confirm(`Would you like to include lowercase letters in your password?`);
     includeUppercaseLetters = confirm(`Would you like to include uppercase letters in your password?`);
     includeNumbers = confirm(`Would you like to include numbers in your password?`);
-    includeSpecialCharacters = confirm(`Would you like to include special characters in your password?`);
-
-    console.log(passwordLength, includeLowercaseLetters, includeUppercaseLetters, includeNumbers, includeSpecialCharacters);
+    includeSpecialCharacters = confirm(`Would you like to include special characters in your password?`); 
   }
 }
 
@@ -111,11 +107,11 @@ let validatePasswordArray = function(array, lowercase, uppercase, number, specia
 
 // Function to convert each element in passwordArray from integer (Unicode value) to Basic Latin character and convert entire array to single string
 let arrayToCharacters = function(array) {
-  for (let i = 0; i < passwordArray.length; i++) {
-    passwordArray[i] = String.fromCharCode(passwordArray[i]);
+  for (let i = 0; i < array.length; i++) {
+    array[i] = String.fromCharCode(array[i]);
   }
 
-  strPassword = array.join("");
+  return array.join("");
 }
 
 // Function to generate random password that meets criteria
@@ -130,7 +126,7 @@ let generatePassword = function() {
   validatePasswordArray(passwordArray, includeLowercaseLetters, includeUppercaseLetters, includeNumbers, includeSpecialCharacters);
 
   // Convert each element in array from Unicode value (integer) to character and convert entire array to single string
-  arrayToCharacters(passwordArray);
+  return arrayToCharacters(passwordArray);
 }
 
 // Get references to the #generate element
