@@ -1,12 +1,15 @@
-// Declare variables
+// Password criteria variables
 let passwordLength = 0;
 let includeLowercaseLetters = false;
 let includeUppercaseLetters = false;
 let includeNumbers = false;
 let includeSpecialCharacters = false;
 
+// Password array variables
 let passwordArray = [];
+let passwordArrayValid = true;
 
+// Unicode value constants
 const basicLatinLower = 33;
 const unicodeZero = 48;
 const unicodeNine = 57;
@@ -52,56 +55,48 @@ let createPasswordArray = function(length) {
 
 // Function to validate array created against password criteria
 let validatePasswordArray = function(array, lowercase, uppercase, number, special) {
-  // If password must contain lowercase letters, then...
-  if (lowercase) {
-    // Function to check array for integers (Unicode values) that correspond to lowercase letters
-    let checkArrayLowercase = function(lowercase) {
-      return lowercase >= unicodeLowercaseA && lowercase <= unicodeLowercaseZ;
-    }
-    
-    if (isNaN(array.find(checkArrayLowercase))) {
-      // Array does not contain any lowercase letters, so create a new password array
-      createPasswordArray(passwordLength);
-    }
+
+  // Functions to check array for an integer (Unicode value) that corresponds to a character type
+  let checkArrayLowercase = function(lowercase) {
+    return lowercase >= unicodeLowercaseA && lowercase <= unicodeLowercaseZ;
+  }
+  let checkArrayUppercase = function(uppercase) {
+    return uppercase >= unicodeUppercaseA && uppercase <= unicodeUppercaseZ;
+  }
+  let checkArrayNumber = function(number) {
+    return number >= unicodeZero && number <= unicodeNine;
+  }
+  let checkArraySpecial = function(special) {
+    return (special >= 33 && special <= 47) || (special >= 58 && special <= 64) || (special >= 91 && special <= 96) || (special >= 123 && special <= 126);
   }
 
-  // If password must contain uppercase letters, then...
-  if (uppercase) {
-    // Function to check array for integers (Unicode values) that correspond to uppercase letters
-    let checkArrayUppercase = function(uppercase) {
-      return uppercase >= unicodeUppercaseA && uppercase <= unicodeUppercaseZ;
-    }
+  // Reset passwordArrayValid variable
+  passwordArrayValid = true;
 
-    if (isNaN(array.find(checkArrayUppercase))) {
-      // Array does not contain any uppercase letters, so create new password array
-      createPasswordArray(passwordLength);
-    }
+  // Functions to determine if password matches criteria
+  if (lowercase === true && Number.isInteger(array.find(checkArrayLowercase)) === false) {
+    passwordArrayValid = false;
   }
-
-  // If password must contain numbers, then...
-  if (number) {
-    // Function to check array for integers (Unicode values) that correspond to numbers
-    let checkArrayNumber = function(number) {
-      return number >= unicodeZero && number <= unicodeNine;
-    }
-
-    if (isNaN(array.find(checkArrayNumber))) {
-      // Array does not contain any numbers, so create new password array
-      createPasswordArray(passwordLength);
-    }
+  if (lowercase === false && Number.isInteger(array.find(checkArrayLowercase)) === true) {
+    passwordArrayValid = false;
   }
-
-  // If password must contain special characters, then...
-  if (special) {
-    // Function to check array for integers (Unicode values) that correspond to special characters
-    let checkArraySpecial = function(special) {
-      return (special >= 33 && special <= 47) || (special >= 58 && special <= 64) || (special >= 91 && special <= 96) || (special >= 123 && special <= 126);
-    }
-
-    if (isNaN(array.find(checkArraySpecial))) {
-      // Array does not contain any special characters, so create new password array
-      createPasswordArray(passwordLength);
-    }
+  if (uppercase === true && Number.isInteger(array.find(checkArrayUppercase)) === false) {  
+    passwordArrayValid = false;
+  }
+  if (uppercase === false && Number.isInteger(array.find(checkArrayUppercase)) === true) {  
+    passwordArrayValid = false;
+  }
+  if (number === true && Number.isInteger(array.find(checkArrayNumber)) === false) {  
+    passwordArrayValid = false;
+  }
+  if (number === false && Number.isInteger(array.find(checkArrayNumber)) === true) {  
+    passwordArrayValid = false;
+  }
+  if (special === true && Number.isInteger(array.find(checkArraySpecial)) === false) {  
+    passwordArrayValid = false;
+  }
+  if (special === false && Number.isInteger(array.find(checkArraySpecial)) === true) {  
+    passwordArrayValid = false;
   }
 }
 
@@ -119,11 +114,14 @@ let generatePassword = function() {
   // Prompt user to enter valid password criteria
   passwordCriteria();  
 
-  // Create an array of random integers (Unicode values) that correspond to Basic Latin characters
-  createPasswordArray(passwordLength);
+  do {
+    // Create an array of random integers (Unicode values) that correspond to Basic Latin characters
+    createPasswordArray(passwordLength);
 
-  // validate array created against password criteria
-  validatePasswordArray(passwordArray, includeLowercaseLetters, includeUppercaseLetters, includeNumbers, includeSpecialCharacters);
+    // validate array created against password criteria
+    validatePasswordArray(passwordArray, includeLowercaseLetters, includeUppercaseLetters, includeNumbers, includeSpecialCharacters);
+  }
+  while (passwordArrayValid === false);
 
   // Convert each element in array from Unicode value (integer) to character and convert entire array to single string
   return arrayToCharacters(passwordArray);
