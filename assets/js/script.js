@@ -7,29 +7,29 @@ let characterType = {
   meetsUserCriteria: [],
   
   writeAll: function() {
-    for (j = 97; j < 123; j++) {
-      characterType.lowercaseLetters.push(String.fromCharCode(j)); 
+    for (i = 97; i < 123; i++) {
+      this.lowercaseLetters.push(String.fromCharCode(i)); 
     }
   
-    for (j = 65; j < 91; j++) {
-      characterType.uppercaseLetters.push(String.fromCharCode(j));
+    for (i = 65; i < 91; i++) {
+      this.uppercaseLetters.push(String.fromCharCode(i));
     }
   
-    for (j = 48; j < 58; j++) {
-      characterType.numericCharacters.push(String.fromCharCode(j));
+    for (i = 48; i < 58; i++) {
+      this.numericCharacters.push(String.fromCharCode(i));
     }
   
-    for (j = 33; j < 48; j++) {
-      characterType.specialCharacters.push(String.fromCharCode(j));
+    for (i = 33; i < 48; i++) {
+      this.specialCharacters.push(String.fromCharCode(i));
     }
-    for (j = 58; j < 65; j++) {
-      characterType.specialCharacters.push(String.fromCharCode(j));
+    for (i = 58; i < 65; i++) {
+      this.specialCharacters.push(String.fromCharCode(i));
     }
-    for (j = 91; j < 97; j++) {
-      characterType.specialCharacters.push(String.fromCharCode(j));
+    for (i = 91; i < 97; i++) {
+      this.specialCharacters.push(String.fromCharCode(i));
     }
-    for (j = 123; j < 127; j++) {
-      characterType.specialCharacters.push(String.fromCharCode(j));
+    for (i = 123; i < 127; i++) {
+      this.specialCharacters.push(String.fromCharCode(i));
     }
   }
 };
