@@ -44,26 +44,25 @@ let password = {
     includeSpecialCharacters: false,
     get: function() {
       // Prompt user for password length and validate input
-      while (password.criteria.length < 8 || password.criteria.length > 128) {
-        password.criteria.length = parseInt(prompt(`Please enter a password length between 8 and 128 characters:`));
-        if (isNaN(password.criteria.length)) {
-          password.criteria.length = 0;
+      while (this.length < 8 || this.length > 128) {
+        this.length = parseInt(prompt(`Please enter a password length between 8 and 128 characters:`));
+        if (isNaN(this.length)) {
+          this.length = 0;
         }
       }
 
       // Prompt user regarding inclusion of various character types in password - at least one character type must be selected
-      while (password.criteria.includeLowercaseLetters === false && password.criteria.includeUppercaseLetters === false && password.criteria.includeNumericCharacters === false && password.criteria.includeSpecialCharacters === false) {
+      while (this.includeLowercaseLetters === false && this.includeUppercaseLetters === false && this.includeNumericCharacters === false && this.includeSpecialCharacters === false) {
         alert(`Please select at least one of the following character types to be included in your password.`);
-        password.criteria.includeLowercaseLetters = confirm(`Would you like to include lowercase letters in your password?`);
-        password.criteria.includeUppercaseLetters = confirm(`Would you like to include uppercase letters in your password?`);
-        password.criteria.includeNumericCharacters = confirm(`Would you like to include numbers in your password?`);
-        password.criteria.includeSpecialCharacters = confirm(`Would you like to include special characters in your password?`); 
+        this.includeLowercaseLetters = confirm(`Would you like to include lowercase letters in your password?`);
+        this.includeUppercaseLetters = confirm(`Would you like to include uppercase letters in your password?`);
+        this.includeNumericCharacters = confirm(`Would you like to include numbers in your password?`);
+        this.includeSpecialCharacters = confirm(`Would you like to include special characters in your password?`); 
       }
     }
   },
   
   asArray: [],
-  asString: ``,
 
   // Function to create an array of random integers (Unicode values) that correspond to Basic Latin characters
   createNew: function(length, includeLowercaseLetters, includeUppercaseLetters, includeNumericCharacters, includeSpecialCharacters) {
@@ -94,12 +93,9 @@ let password = {
     }
     
     // Randomly select characters from the array of characters that meet the user-defined criteria
-    for (let i = 0; i < password.criteria.length; i++) {
-      password.asArray[i] = characterType.meetsUserCriteria[randomNumber(0, characterType.meetsUserCriteria.length - 1)];
+    for (let i = 0; i < this.criteria.length; i++) {
+      this.asArray[i] = characterType.meetsUserCriteria[randomNumber(0, characterType.meetsUserCriteria.length - 1)];
     }
-
-    // Convert array to single string
-    password.asString = password.asArray.join(``);
   }
 };
 
@@ -115,7 +111,7 @@ let generatePassword = function() {
   password.criteria.get();  
   password.createNew(password.criteria.length, password.criteria.includeLowercaseLetters, password.criteria.includeUppercaseLetters, password.criteria.includeNumericCharacters, password.criteria.includeSpecialCharacters);
 
-  return password.asString;
+  return password.asArray.join(``);
 }
 
 // Get references to the #generate element
