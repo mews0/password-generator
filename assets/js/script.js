@@ -1,3 +1,12 @@
+// Declare object to store arrays of character types
+let characterArray = {
+  lowercaseLetters: [],
+  uppercaseLetters: [],
+  numericCharacters: [],
+  specialCharacters: []
+};
+
+// Declare object to store password information
 let password = {
   length: 0,
   includeLowercaseLetters: false,
@@ -84,6 +93,34 @@ let password = {
   }
 };
 
+// Function to write characters to corresponding character type in characterArray object
+let charactersToArray = function() {
+  for (j = 97; j < 123; j++) {
+    characterArray.lowercaseLetters.push(String.fromCharCode(j)); 
+  }
+
+  for (j = 65; j < 91; j++) {
+    characterArray.uppercaseLetters.push(String.fromCharCode(j));
+  }
+
+  for (j = 48; j < 58; j++) {
+    characterArray.numericCharacters.push(String.fromCharCode(j));
+  }
+
+  for (j = 33; j < 48; j++) {
+    characterArray.specialCharacters.push(String.fromCharCode(j));
+  }
+  for (j = 58; j < 65; j++) {
+    characterArray.specialCharacters.push(String.fromCharCode(j));
+  }
+  for (j = 91; j < 97; j++) {
+    characterArray.specialCharacters.push(String.fromCharCode(j));
+  }
+  for (j = 123; j < 127; j++) {
+    characterArray.specialCharacters.push(String.fromCharCode(j));
+  }
+}
+
 const unicode = {
   basicLatinLower: 33,
   zero: 48,
@@ -102,6 +139,8 @@ let randomNumber = function(min, max) {
   return value;
 }
 
+
+
 // Function to generate random password that meets criteria
 let generatePassword = function() {
   // Prompt user to enter valid password criteria
@@ -119,6 +158,9 @@ let generatePassword = function() {
   // Convert each element in array from Unicode value (integer) to character and convert entire array to single string
   return password.toCharacters(password.array);
 }
+
+// Write characters to corresponding character type in characterArray object
+charactersToArray();
 
 // Get references to the #generate element
 let generateBtn = document.querySelector("#generate");
