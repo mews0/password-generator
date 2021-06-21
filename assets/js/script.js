@@ -32,7 +32,7 @@ let password = {
     }
   },
   // Function to create an array of random integers (Unicode values) that correspond to Basic Latin characters
-  create: function(length) {  
+  createNew: function(length) {  
     for (let i = 0; i < password.length; i++) {
       password.array[i] = randomNumber(unicode.basicLatinLower, unicode.basicLatinUpper);
     }
@@ -148,7 +148,7 @@ let generatePassword = function() {
 
   do {
     // Create an array of random integers (Unicode values) that correspond to Basic Latin characters
-    password.create(password.length);
+    password.createNew(password.length);
 
     // validate array created against password criteria
     password.validate(password.array, password.includeLowercaseLetters, password.includeUppercaseLetters, password.includeNumericCharacters, password.includeSpecialCharacters);
