@@ -62,8 +62,8 @@ let password = {
     }
   },
   
-  array: [],
-  text: ``,
+  asArray: [],
+  asString: ``,
 
   // Function to create an array of random integers (Unicode values) that correspond to Basic Latin characters
   createNew: function(length, includeLowercaseLetters, includeUppercaseLetters, includeNumericCharacters, includeSpecialCharacters) {
@@ -95,11 +95,11 @@ let password = {
     
     // Randomly select characters from the array of characters that meet the user-defined criteria
     for (let i = 0; i < password.criteria.length; i++) {
-      password.array[i] = characterType.meetsUserCriteria[randomNumber(0, characterType.meetsUserCriteria.length - 1)];
+      password.asArray[i] = characterType.meetsUserCriteria[randomNumber(0, characterType.meetsUserCriteria.length - 1)];
     }
 
     // Convert array to single string
-    password.text = password.array.join(``);
+    password.asString = password.asArray.join(``);
   }
 };
 
@@ -115,7 +115,7 @@ let generatePassword = function() {
   password.criteria.get();  
   password.createNew(password.criteria.length, password.criteria.includeLowercaseLetters, password.criteria.includeUppercaseLetters, password.criteria.includeNumericCharacters, password.criteria.includeSpecialCharacters);
 
-  return password.text;
+  return password.asString;
 }
 
 // Get references to the #generate element
