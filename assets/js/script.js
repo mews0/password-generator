@@ -4,7 +4,34 @@ let characterType = {
   uppercaseLetters: [],
   numericCharacters: [],
   specialCharacters: [],
-  meetsUserCriteria: []
+  meetsUserCriteria: [],
+  
+  writeAll: function() {
+    for (j = 97; j < 123; j++) {
+      characterType.lowercaseLetters.push(String.fromCharCode(j)); 
+    }
+  
+    for (j = 65; j < 91; j++) {
+      characterType.uppercaseLetters.push(String.fromCharCode(j));
+    }
+  
+    for (j = 48; j < 58; j++) {
+      characterType.numericCharacters.push(String.fromCharCode(j));
+    }
+  
+    for (j = 33; j < 48; j++) {
+      characterType.specialCharacters.push(String.fromCharCode(j));
+    }
+    for (j = 58; j < 65; j++) {
+      characterType.specialCharacters.push(String.fromCharCode(j));
+    }
+    for (j = 91; j < 97; j++) {
+      characterType.specialCharacters.push(String.fromCharCode(j));
+    }
+    for (j = 123; j < 127; j++) {
+      characterType.specialCharacters.push(String.fromCharCode(j));
+    }
+  }
 };
 
 // Declare object to store password information
@@ -32,8 +59,10 @@ let password = {
       password.includeSpecialCharacters = confirm(`Would you like to include special characters in your password?`); 
     }
   },
+  
   array: [],
   text: ``,
+
   // Function to create an array of random integers (Unicode values) that correspond to Basic Latin characters
   createNew: function(length, includeLowercaseLetters, includeUppercaseLetters, includeNumericCharacters, includeSpecialCharacters) {
     
@@ -72,34 +101,6 @@ let password = {
   }
 };
 
-// Function to write characters to corresponding character type in characterArray object
-let charactersToArray = function() {
-  for (j = 97; j < 123; j++) {
-    characterType.lowercaseLetters.push(String.fromCharCode(j)); 
-  }
-
-  for (j = 65; j < 91; j++) {
-    characterType.uppercaseLetters.push(String.fromCharCode(j));
-  }
-
-  for (j = 48; j < 58; j++) {
-    characterType.numericCharacters.push(String.fromCharCode(j));
-  }
-
-  for (j = 33; j < 48; j++) {
-    characterType.specialCharacters.push(String.fromCharCode(j));
-  }
-  for (j = 58; j < 65; j++) {
-    characterType.specialCharacters.push(String.fromCharCode(j));
-  }
-  for (j = 91; j < 97; j++) {
-    characterType.specialCharacters.push(String.fromCharCode(j));
-  }
-  for (j = 123; j < 127; j++) {
-    characterType.specialCharacters.push(String.fromCharCode(j));
-  }
-}
-
 // Function to generate a random integer between a minimum and maximum value
 let randomNumber = function(min, max) {
   let value = Math.floor(Math.random() * (max - min + 1) + min);
@@ -127,7 +128,7 @@ let writePassword = function() {
 }
 
 // Write characters to corresponding character type in characterArray object
-charactersToArray();
+characterType.writeAll();
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
