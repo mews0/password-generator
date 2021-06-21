@@ -2,7 +2,7 @@ let password = {
   length: 0,
   includeLowercaseLetters: false,
   includeUppercaseLetters: false,
-  includeNumbers: false,
+  includeNumericCharacters: false,
   includeSpecialCharacters: false,
   getCriteria: function() {
     // Prompt user for password length and validate input
@@ -14,11 +14,11 @@ let password = {
     }
 
     // Prompt user regarding inclusion of various character types in password - at least one character type must be selected
-    while (password.includeLowercaseLetters === false && password.includeUppercaseLetters === false && password.includeNumbers === false && password.includeSpecialCharacters === false) {
+    while (password.includeLowercaseLetters === false && password.includeUppercaseLetters === false && password.includeNumericCharacters === false && password.includeSpecialCharacters === false) {
       alert(`Please select at least one of the following character types to be included in your password.`);
       password.includeLowercaseLetters = confirm(`Would you like to include lowercase letters in your password?`);
       password.includeUppercaseLetters = confirm(`Would you like to include uppercase letters in your password?`);
-      password.includeNumbers = confirm(`Would you like to include numbers in your password?`);
+      password.includeNumericCharacters = confirm(`Would you like to include numbers in your password?`);
       password.includeSpecialCharacters = confirm(`Would you like to include special characters in your password?`); 
     }
   },
@@ -112,7 +112,7 @@ let generatePassword = function() {
     password.create(password.length);
 
     // validate array created against password criteria
-    password.validate(password.array, password.includeLowercaseLetters, password.includeUppercaseLetters, password.includeNumbers, password.includeSpecialCharacters);
+    password.validate(password.array, password.includeLowercaseLetters, password.includeUppercaseLetters, password.includeNumericCharacters, password.includeSpecialCharacters);
   }
   while (password.valid === false);
 
