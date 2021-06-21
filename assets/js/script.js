@@ -36,27 +36,29 @@ let characterType = {
 
 // Declare object to store password information
 let password = {
-  length: 0,
-  includeLowercaseLetters: false,
-  includeUppercaseLetters: false,
-  includeNumericCharacters: false,
-  includeSpecialCharacters: false,
-  getCriteria: function() {
-    // Prompt user for password length and validate input
-    while (password.length < 8 || password.length > 128) {
-      password.length = parseInt(prompt(`Please enter a password length between 8 and 128 characters:`));
-      if (isNaN(password.length)) {
-        password.length = 0;
+  criteria: {
+    length: 0,
+    includeLowercaseLetters: false,
+    includeUppercaseLetters: false,
+    includeNumericCharacters: false,
+    includeSpecialCharacters: false,
+    get: function() {
+      // Prompt user for password length and validate input
+      while (password.criteria.length < 8 || password.criteria.length > 128) {
+        password.criteria.length = parseInt(prompt(`Please enter a password length between 8 and 128 characters:`));
+        if (isNaN(password.criteria.length)) {
+          password.criteria.length = 0;
+        }
       }
-    }
 
-    // Prompt user regarding inclusion of various character types in password - at least one character type must be selected
-    while (password.includeLowercaseLetters === false && password.includeUppercaseLetters === false && password.includeNumericCharacters === false && password.includeSpecialCharacters === false) {
-      alert(`Please select at least one of the following character types to be included in your password.`);
-      password.includeLowercaseLetters = confirm(`Would you like to include lowercase letters in your password?`);
-      password.includeUppercaseLetters = confirm(`Would you like to include uppercase letters in your password?`);
-      password.includeNumericCharacters = confirm(`Would you like to include numbers in your password?`);
-      password.includeSpecialCharacters = confirm(`Would you like to include special characters in your password?`); 
+      // Prompt user regarding inclusion of various character types in password - at least one character type must be selected
+      while (password.criteria.includeLowercaseLetters === false && password.criteria.includeUppercaseLetters === false && password.criteria.includeNumericCharacters === false && password.criteria.includeSpecialCharacters === false) {
+        alert(`Please select at least one of the following character types to be included in your password.`);
+        password.criteria.includeLowercaseLetters = confirm(`Would you like to include lowercase letters in your password?`);
+        password.criteria.includeUppercaseLetters = confirm(`Would you like to include uppercase letters in your password?`);
+        password.criteria.includeNumericCharacters = confirm(`Would you like to include numbers in your password?`);
+        password.criteria.includeSpecialCharacters = confirm(`Would you like to include special characters in your password?`); 
+      }
     }
   },
   
@@ -92,7 +94,7 @@ let password = {
     }
     
     // Randomly select characters from the array of characters that meet the user-defined criteria
-    for (let i = 0; i < password.length; i++) {
+    for (let i = 0; i < password.criteria.length; i++) {
       password.array[i] = characterType.meetsUserCriteria[randomNumber(0, characterType.meetsUserCriteria.length - 1)];
     }
 
@@ -110,8 +112,8 @@ let randomNumber = function(min, max) {
 
 // Function to generate random password that meets criteria
 let generatePassword = function() {
-  password.getCriteria();  
-  password.createNew(password.length, password.includeLowercaseLetters, password.includeUppercaseLetters, password.includeNumericCharacters, password.includeSpecialCharacters);
+  password.criteria.get();  
+  password.createNew(password.criteria.length, password.criteria.includeLowercaseLetters, password.criteria.includeUppercaseLetters, password.criteria.includeNumericCharacters, password.criteria.includeSpecialCharacters);
 
   return password.text;
 }
