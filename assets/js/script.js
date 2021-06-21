@@ -1,9 +1,10 @@
 // Declare object to store arrays of character types
-let characterArray = {
+let characterType = {
   lowercaseLetters: [],
   uppercaseLetters: [],
   numericCharacters: [],
-  specialCharacters: []
+  specialCharacters: [],
+  meetsUserCriteria: []
 };
 
 // Declare object to store password information
@@ -31,106 +32,73 @@ let password = {
       password.includeSpecialCharacters = confirm(`Would you like to include special characters in your password?`); 
     }
   },
-  // Function to create an array of random integers (Unicode values) that correspond to Basic Latin characters
-  createNew: function(length) {  
-    for (let i = 0; i < password.length; i++) {
-      password.array[i] = randomNumber(unicode.basicLatinLower, unicode.basicLatinUpper);
-    }
-  },
   array: [],
-  validate: function(array, lowercase, uppercase, number, special) {
-    // Functions to check array for an integer (Unicode value) that corresponds to a character type
-    let checkArrayLowercase = function(lowercase) {
-      return lowercase >= unicode.lowercaseA && lowercase <= unicode.lowercaseZ;
-    }
-    let checkArrayUppercase = function(uppercase) {
-      return uppercase >= unicode.uppercaseA && uppercase <= unicode.uppercaseZ;
-    }
-    let checkArrayNumber = function(number) {
-      return number >= unicode.zero && number <= unicode.nine;
-    }
-    let checkArraySpecial = function(special) {
-      return (special >= 33 && special <= 47) || (special >= 58 && special <= 64) || (special >= 91 && special <= 96) || (special >= 123 && special <= 126);
+  text: ``,
+  // Function to create an array of random integers (Unicode values) that correspond to Basic Latin characters
+  createNew: function(length, includeLowercaseLetters, includeUppercaseLetters, includeNumericCharacters, includeSpecialCharacters) {
+    
+    // Create an array of characters that meet the user-defined criteria
+    if (includeLowercaseLetters === true) {
+      for (i = 0; i < characterType.lowercaseLetters.length; i++) {
+        characterType.meetsUserCriteria.push(characterType.lowercaseLetters[i]);
+      }
     }
 
-    // Reset password.valid variable
-    password.valid = true;
+    if (includeUppercaseLetters === true) {
+      for (i = 0; i < characterType.uppercaseLetters.length; i++) {
+        characterType.meetsUserCriteria.push(characterType.uppercaseLetters[i]);
+      }
+    }
 
-    // Functions to determine if password matches criteria
-    if (lowercase === true && Number.isInteger(array.find(checkArrayLowercase)) === false) {
-      password.valid = false;
+    if (includeNumericCharacters === true) {
+      for (i = 0; i < characterType.numericCharacters.length; i++) {
+        characterType.meetsUserCriteria.push(characterType.numericCharacters[i]);
+      }
     }
-    if (lowercase === false && Number.isInteger(array.find(checkArrayLowercase)) === true) {
-      password.valid = false;
+
+    if (includeSpecialCharacters === true) {
+      for (i = 0; i < characterType.specialCharacters.length; i++) {
+        characterType.meetsUserCriteria.push(characterType.specialCharacters[i]);
+      }
     }
-    if (uppercase === true && Number.isInteger(array.find(checkArrayUppercase)) === false) {  
-      password.valid = false;
+    
+    // Randomly select characters from the array of characters that meet the user-defined criteria
+    for (let i = 0; i < password.length; i++) {
+      password.array[i] = characterType.meetsUserCriteria[randomNumber(0, characterType.meetsUserCriteria.length - 1)];
     }
-    if (uppercase === false && Number.isInteger(array.find(checkArrayUppercase)) === true) {  
-      password.valid = false;
-    }
-    if (number === true && Number.isInteger(array.find(checkArrayNumber)) === false) {  
-      password.valid = false;
-    }
-    if (number === false && Number.isInteger(array.find(checkArrayNumber)) === true) {  
-      password.valid = false;
-    }
-    if (special === true && Number.isInteger(array.find(checkArraySpecial)) === false) {  
-      password.valid = false;
-    }
-    if (special === false && Number.isInteger(array.find(checkArraySpecial)) === true) {  
-      password.valid = false;
-    }
-  },
-  valid: true,
-  // Function to convert each element in password.array from integer (Unicode value) to Basic Latin character and convert entire array to single string
-  toCharacters: function(array) {
-    for (let i = 0; i < array.length; i++) {
-      array[i] = String.fromCharCode(array[i]);
-    }
-  
-    return array.join("");
+
+    // Convert array to single string
+    password.text = password.array.join(``);
   }
 };
 
 // Function to write characters to corresponding character type in characterArray object
 let charactersToArray = function() {
   for (j = 97; j < 123; j++) {
-    characterArray.lowercaseLetters.push(String.fromCharCode(j)); 
+    characterType.lowercaseLetters.push(String.fromCharCode(j)); 
   }
 
   for (j = 65; j < 91; j++) {
-    characterArray.uppercaseLetters.push(String.fromCharCode(j));
+    characterType.uppercaseLetters.push(String.fromCharCode(j));
   }
 
   for (j = 48; j < 58; j++) {
-    characterArray.numericCharacters.push(String.fromCharCode(j));
+    characterType.numericCharacters.push(String.fromCharCode(j));
   }
 
   for (j = 33; j < 48; j++) {
-    characterArray.specialCharacters.push(String.fromCharCode(j));
+    characterType.specialCharacters.push(String.fromCharCode(j));
   }
   for (j = 58; j < 65; j++) {
-    characterArray.specialCharacters.push(String.fromCharCode(j));
+    characterType.specialCharacters.push(String.fromCharCode(j));
   }
   for (j = 91; j < 97; j++) {
-    characterArray.specialCharacters.push(String.fromCharCode(j));
+    characterType.specialCharacters.push(String.fromCharCode(j));
   }
   for (j = 123; j < 127; j++) {
-    characterArray.specialCharacters.push(String.fromCharCode(j));
+    characterType.specialCharacters.push(String.fromCharCode(j));
   }
 }
-
-const unicode = {
-  basicLatinLower: 33,
-  zero: 48,
-  nine: 57,
-  uppercaseA: 65,
-  uppercaseZ: 90,
-  lowercaseA: 97,
-  lowercaseZ: 122,
-  basicLatinUpper: 126
-};
 
 // Function to generate a random integer between a minimum and maximum value
 let randomNumber = function(min, max) {
@@ -139,28 +107,13 @@ let randomNumber = function(min, max) {
   return value;
 }
 
-
-
 // Function to generate random password that meets criteria
 let generatePassword = function() {
-  // Prompt user to enter valid password criteria
   password.getCriteria();  
+  password.createNew(password.length, password.includeLowercaseLetters, password.includeUppercaseLetters, password.includeNumericCharacters, password.includeSpecialCharacters);
 
-  do {
-    // Create an array of random integers (Unicode values) that correspond to Basic Latin characters
-    password.createNew(password.length);
-
-    // validate array created against password criteria
-    password.validate(password.array, password.includeLowercaseLetters, password.includeUppercaseLetters, password.includeNumericCharacters, password.includeSpecialCharacters);
-  }
-  while (password.valid === false);
-
-  // Convert each element in array from Unicode value (integer) to character and convert entire array to single string
-  return password.toCharacters(password.array);
+  return password.text;
 }
-
-// Write characters to corresponding character type in characterArray object
-charactersToArray();
 
 // Get references to the #generate element
 let generateBtn = document.querySelector("#generate");
@@ -172,6 +125,9 @@ let writePassword = function() {
 
   passwordText.value = password;
 }
+
+// Write characters to corresponding character type in characterArray object
+charactersToArray();
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
