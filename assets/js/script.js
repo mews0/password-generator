@@ -4,7 +4,6 @@ let characterType = {
   uppercaseLetters: [],
   numericCharacters: [],
   specialCharacters: [],
-  meetsUserCriteria: [],
   
   writeAll: function() {
     for (i = 97; i < 123; i++) {
@@ -42,6 +41,7 @@ let password = {
     includeUppercaseLetters: false,
     includeNumericCharacters: false,
     includeSpecialCharacters: false,
+    asArray: [],  // Password criteria represented as an array of characters
     get: function() {
       // Prompt user for password length and validate input
       while (this.length < 8 || this.length > 128) {
@@ -62,7 +62,7 @@ let password = {
     }
   },
   
-  asArray: [],
+  asArray: [],  // Password text represented as an array of characters
 
   // Function to create an array of random integers (Unicode values) that correspond to Basic Latin characters
   createNew: function(length, includeLowercaseLetters, includeUppercaseLetters, includeNumericCharacters, includeSpecialCharacters) {
@@ -70,31 +70,31 @@ let password = {
     // Create an array of characters that meet the user-defined criteria
     if (includeLowercaseLetters === true) {
       for (i = 0; i < characterType.lowercaseLetters.length; i++) {
-        characterType.meetsUserCriteria.push(characterType.lowercaseLetters[i]);
+        this.criteria.asArray.push(characterType.lowercaseLetters[i]);
       }
     }
 
     if (includeUppercaseLetters === true) {
       for (i = 0; i < characterType.uppercaseLetters.length; i++) {
-        characterType.meetsUserCriteria.push(characterType.uppercaseLetters[i]);
+        this.criteria.asArray.push(characterType.uppercaseLetters[i]);
       }
     }
 
     if (includeNumericCharacters === true) {
       for (i = 0; i < characterType.numericCharacters.length; i++) {
-        characterType.meetsUserCriteria.push(characterType.numericCharacters[i]);
+        this.criteria.asArray.push(characterType.numericCharacters[i]);
       }
     }
 
     if (includeSpecialCharacters === true) {
       for (i = 0; i < characterType.specialCharacters.length; i++) {
-        characterType.meetsUserCriteria.push(characterType.specialCharacters[i]);
+        this.criteria.asArray.push(characterType.specialCharacters[i]);
       }
     }
     
     // Randomly select characters from the array of characters that meet the user-defined criteria
     for (let i = 0; i < this.criteria.length; i++) {
-      this.asArray[i] = characterType.meetsUserCriteria[randomNumber(0, characterType.meetsUserCriteria.length - 1)];
+      this.asArray[i] = this.criteria.asArray[randomNumber(0, this.criteria.asArray.length - 1)];
     }
   }
 };
