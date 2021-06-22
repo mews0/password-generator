@@ -4,32 +4,31 @@ let characterType = {
   uppercaseLetters: [],
   numericCharacters: [],
   specialCharacters: [],
-  meetsUserCriteria: [],
   
   writeAll: function() {
-    for (j = 97; j < 123; j++) {
-      characterType.lowercaseLetters.push(String.fromCharCode(j)); 
+    for (i = 97; i < 123; i++) {
+      this.lowercaseLetters.push(String.fromCharCode(i)); 
     }
   
-    for (j = 65; j < 91; j++) {
-      characterType.uppercaseLetters.push(String.fromCharCode(j));
+    for (i = 65; i < 91; i++) {
+      this.uppercaseLetters.push(String.fromCharCode(i));
     }
   
-    for (j = 48; j < 58; j++) {
-      characterType.numericCharacters.push(String.fromCharCode(j));
+    for (i = 48; i < 58; i++) {
+      this.numericCharacters.push(String.fromCharCode(i));
     }
   
-    for (j = 33; j < 48; j++) {
-      characterType.specialCharacters.push(String.fromCharCode(j));
+    for (i = 33; i < 48; i++) {
+      this.specialCharacters.push(String.fromCharCode(i));
     }
-    for (j = 58; j < 65; j++) {
-      characterType.specialCharacters.push(String.fromCharCode(j));
+    for (i = 58; i < 65; i++) {
+      this.specialCharacters.push(String.fromCharCode(i));
     }
-    for (j = 91; j < 97; j++) {
-      characterType.specialCharacters.push(String.fromCharCode(j));
+    for (i = 91; i < 97; i++) {
+      this.specialCharacters.push(String.fromCharCode(i));
     }
-    for (j = 123; j < 127; j++) {
-      characterType.specialCharacters.push(String.fromCharCode(j));
+    for (i = 123; i < 127; i++) {
+      this.specialCharacters.push(String.fromCharCode(i));
     }
   }
 };
@@ -42,28 +41,28 @@ let password = {
     includeUppercaseLetters: false,
     includeNumericCharacters: false,
     includeSpecialCharacters: false,
+    asArray: [],  // Password criteria represented as an array of characters
     get: function() {
       // Prompt user for password length and validate input
-      while (password.criteria.length < 8 || password.criteria.length > 128) {
-        password.criteria.length = parseInt(prompt(`Please enter a password length between 8 and 128 characters:`));
-        if (isNaN(password.criteria.length)) {
-          password.criteria.length = 0;
+      while (this.length < 8 || this.length > 128) {
+        this.length = parseInt(prompt(`Please enter a password length between 8 and 128 characters:`));
+        if (isNaN(this.length)) {
+          this.length = 0;
         }
       }
 
       // Prompt user regarding inclusion of various character types in password - at least one character type must be selected
-      while (password.criteria.includeLowercaseLetters === false && password.criteria.includeUppercaseLetters === false && password.criteria.includeNumericCharacters === false && password.criteria.includeSpecialCharacters === false) {
+      while (this.includeLowercaseLetters === false && this.includeUppercaseLetters === false && this.includeNumericCharacters === false && this.includeSpecialCharacters === false) {
         alert(`Please select at least one of the following character types to be included in your password.`);
-        password.criteria.includeLowercaseLetters = confirm(`Would you like to include lowercase letters in your password?`);
-        password.criteria.includeUppercaseLetters = confirm(`Would you like to include uppercase letters in your password?`);
-        password.criteria.includeNumericCharacters = confirm(`Would you like to include numbers in your password?`);
-        password.criteria.includeSpecialCharacters = confirm(`Would you like to include special characters in your password?`); 
+        this.includeLowercaseLetters = confirm(`Would you like to include lowercase letters in your password?`);
+        this.includeUppercaseLetters = confirm(`Would you like to include uppercase letters in your password?`);
+        this.includeNumericCharacters = confirm(`Would you like to include numbers in your password?`);
+        this.includeSpecialCharacters = confirm(`Would you like to include special characters in your password?`); 
       }
     }
   },
   
-  asArray: [],
-  asString: ``,
+  asArray: [],  // Password text represented as an array of characters
 
   // Function to create an array of random integers (Unicode values) that correspond to Basic Latin characters
   createNew: function(length, includeLowercaseLetters, includeUppercaseLetters, includeNumericCharacters, includeSpecialCharacters) {
@@ -71,35 +70,32 @@ let password = {
     // Create an array of characters that meet the user-defined criteria
     if (includeLowercaseLetters === true) {
       for (i = 0; i < characterType.lowercaseLetters.length; i++) {
-        characterType.meetsUserCriteria.push(characterType.lowercaseLetters[i]);
+        this.criteria.asArray.push(characterType.lowercaseLetters[i]);
       }
     }
 
     if (includeUppercaseLetters === true) {
       for (i = 0; i < characterType.uppercaseLetters.length; i++) {
-        characterType.meetsUserCriteria.push(characterType.uppercaseLetters[i]);
+        this.criteria.asArray.push(characterType.uppercaseLetters[i]);
       }
     }
 
     if (includeNumericCharacters === true) {
       for (i = 0; i < characterType.numericCharacters.length; i++) {
-        characterType.meetsUserCriteria.push(characterType.numericCharacters[i]);
+        this.criteria.asArray.push(characterType.numericCharacters[i]);
       }
     }
 
     if (includeSpecialCharacters === true) {
       for (i = 0; i < characterType.specialCharacters.length; i++) {
-        characterType.meetsUserCriteria.push(characterType.specialCharacters[i]);
+        this.criteria.asArray.push(characterType.specialCharacters[i]);
       }
     }
     
     // Randomly select characters from the array of characters that meet the user-defined criteria
-    for (let i = 0; i < password.criteria.length; i++) {
-      password.asArray[i] = characterType.meetsUserCriteria[randomNumber(0, characterType.meetsUserCriteria.length - 1)];
+    for (let i = 0; i < this.criteria.length; i++) {
+      this.asArray[i] = this.criteria.asArray[randomNumber(0, this.criteria.asArray.length - 1)];
     }
-
-    // Convert array to single string
-    password.asString = password.asArray.join(``);
   }
 };
 
@@ -115,7 +111,7 @@ let generatePassword = function() {
   password.criteria.get();  
   password.createNew(password.criteria.length, password.criteria.includeLowercaseLetters, password.criteria.includeUppercaseLetters, password.criteria.includeNumericCharacters, password.criteria.includeSpecialCharacters);
 
-  return password.asString;
+  return password.asArray.join(``);
 }
 
 // Get references to the #generate element
